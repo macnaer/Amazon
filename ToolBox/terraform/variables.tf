@@ -1,11 +1,11 @@
 variable "aws_access_key" {
   type    = string
-  default = "AKIAXY7P3NWVGWWA7AVW"
+  default = ""
 }
 
 variable "aws_secret_key" {
   type    = string
-  default = "gBbpmFecmwtHWXyoIQuIxPuLDg5MnEoLgOcwnZ3G"
+  default = ""
 }
 
 variable "region" {
@@ -15,5 +15,5 @@ variable "region" {
 
 variable "public_ip" {
   type    = string
-  default = "eipalloc-01403983497df49b0"
+  default = ""
 }
