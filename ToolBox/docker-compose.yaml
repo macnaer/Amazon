@@ -38,7 +38,7 @@ services:
   backend:
     depends_on:
       - sqlserver
-    image: macnaer/amazon-clone-backend
+    image: olbester/amazon-clone-backend
     container_name: backend
     restart: always
     ports:
@@ -47,7 +47,7 @@ services:
   frontend:
     depends_on:
       - backend
-    image: macnaer/amazon-clone-frontend
+    image: olbester/amazon-clone-frontend
     container_name: frontend
     restart: always
     ports:
