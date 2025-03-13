@@ -15,9 +15,9 @@ credentials:
           - usernamePassword:
               description: "DockerHub-Credentials"
               id: "DockerHub-Credentials"
-              password: "{}"
+              password: "{AQAAABAAAAAQSJjWgjd25pcQeRfTzAKqBC2lzFKrqCTuugDN3+xy1uo=}"
               scope: GLOBAL
-              username: ""
+              username: "macnaer"
 jenkins:
   authorizationStrategy:
     loggedInUsersCanDoAnything:
