@@ -1,54 +1,42 @@
 #!groovy
-// groovy Jenkinsfile
-pipeline {
+//  groovy Jenkinsfile
+pipeline  {
     agent any;
     stages {
-        stage("Change IP in appsettings.json")
-        {
-            steps{
-                withCredentials([string(credentialsId: 'IP_ADDRESS',  variable: 'IP')]){
-                    sh "find BackEnd/Amazon-clone/ -type f -exec sed  -i 's#http://localhost:81#https://${IP}/#g' {} +"
-                }
-            }
-        }
+       stage("Change IP in appsettings.json")
+         {
+             steps{
+                sh "find BackEnd/Amazon-clone/ -type f -exec sed  -i 's#http://localhost:81#https://16.170.50.138/#g' {} +"
+             }
+         }
         stage("Change Database IP in appsettings.json")
-        {
-            steps{
-                withCredentials([string(credentialsId: 'IP_ADDRESS',  variable: 'IP')]){
-                    sh "find BackEnd/Amazon-clone/ -type f -exec sed  -i 's#Server=20.240.61.200#Server=${IP}#g' {} +"
-                }
-            }
-        }
-        stage("Change Database Password in appsettings.json")
-        {
-            steps{
-                withCredentials([string(credentialsId: 'MSSQL-PASSWORD',  variable: 'PASSWD')]){
-                    sh "find BackEnd/Amazon-clone/ -type f -exec sed  -i 's#Password=Qwerty-1#Password=${PASSWD}#g' {} +"
-                }
-            }
-        }
+         {
+             steps{
+                sh "find BackEnd/Amazon-clone/ -type f -exec sed  -i 's#Server=20.240.61.200#Server=16.170.50.138#g' {} +"
+             }
+         }
         stage("Create backend docker image") {
             steps {
                 echo 'Creating backend docker image ...'
-                withCredentials([usernamePassword(credentialsId: 'DockerHub-Credentials', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-                    sh 'cd BackEnd/Amazon-clone/ && docker build --no-cache -t ${USERNAME}/amazon-clone-backend  .'
-                }
+                sh " cd BackEnd/Amazon-clone/ && docker build --no-cache -t olbester/amazon-clone-backend  . "
             }
         }
         stage("docker login") {
             steps {
                 echo " ============== docker login =================="
                 withCredentials([usernamePassword(credentialsId: 'DockerHub-Credentials', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-                    sh 'docker login -u $USERNAME -p $PASSWORD'
+                    sh '''
+                    docker login -u $USERNAME -p $PASSWORD
+                    '''
                 }
             }
         }
-        stage("docker backend push") {
+        stage("docker frontend push") {
             steps {
                 echo " ============== pushing amazon-clone-backend image =================="
-                withCredentials([usernamePassword(credentialsId: 'DockerHub-Credentials', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-                    sh 'docker push ${USERNAME}/amazon-clone-backend'
-                }
+                sh '''
+                docker push  olbester/amazon-clone-backend
+                '''
             }
         }
     }
