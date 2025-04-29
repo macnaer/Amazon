@@ -6,13 +6,13 @@ pipeline  {
         stage("Change IP in axios.js")
          {
              steps{
-                sh "find FrontEnd/my-app/ -type f -exec sed  -i 's#http://localhost:5034#http://51.21.128.141:5034#g' {} +"
+                sh "find FrontEnd/my-app/ -type f -exec sed  -i 's#http://localhost:5034#http://13.48.212.107:5034#g' {} +"
              }
          }
         stage("Create frontend docker image") {
             steps {
                 echo 'Creating frontend docker image ...'
-                sh "cd FrontEnd/my-app &&  docker build --no-cache -t macnaer/amazon-clone-frontend   . "                
+                sh "cd FrontEnd/my-app &&  docker build --no-cache -t olbester/amazon-clone-frontend   . "                
             }
         }
         stage("docker login") {
@@ -29,7 +29,7 @@ pipeline  {
             steps {
                 echo " ============== pushing amazon-clone-frontend image =================="
                 sh '''
-                docker push macnaer/amazon-clone-frontend
+                docker push olbester/amazon-clone-frontend
                 '''
             }
         }
